@@ -33,6 +33,18 @@ dependencies {
         transitive = false
     }
 
+    jmh(project(':opentelemetry-exporter-otlp')) {
+        // The opentelemetry-exporter-otlp depends on this project itself. So don't pull in
+        // the transitive dependencies.
+        transitive = false
+    }
+    // explicitly adding the opentelemetry-exporter-otlp dependencies
+    jmh(project(':opentelemetry-sdk-extension-otproto')) { transitive = false }
+    jmh(project(':opentelemetry-proto'))
+    jmh("io.grpc:grpc-api")
+    jmh("io.grpc:grpc-netty") // A managed channel provider is required with grpc
+    jmh("org.testcontainers:testcontainers:1.15.0") // testContainer for OTLP collector
+
     signature libraries.android_signature
 }
 
